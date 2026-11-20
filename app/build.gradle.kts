@@ -15,8 +15,9 @@ android {
         applicationId = "com.flashcards"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        // Kept in step with the desktop app's packageVersion so a release ships one version.
+        versionName = "1.0.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

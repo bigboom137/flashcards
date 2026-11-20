@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--
+      Wi-Fi sync talks plain HTTP to the desktop app on the local network. Android has
+      no way to permit cleartext for private IP ranges only (<domain> matches host
+      names, not CIDR blocks), so cleartext is allowed and the app simply never makes
+      any other network request: the only URLs it builds are the ones the user picks
+      on this screen.
+    -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

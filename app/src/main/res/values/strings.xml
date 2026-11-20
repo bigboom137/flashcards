@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Flashcards</string>
+    <string name="widget_description">Shows how many flashcards are due for review</string>
+</resources>

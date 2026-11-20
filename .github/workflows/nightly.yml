@@ -1,0 +1,43 @@
+name: Nightly tests
+
+on:
+  schedule:
+    # 08:00 UTC — the small hours in North America, so a red run is waiting in the morning.
+    - cron: "0 8 * * *"
+  # Also runnable by hand from the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  windows:
+    name: Tests on Windows
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      # The desktop suite covers the scheduler, parser, backup format, library merge
+      # and the Wi-Fi sync server (over loopback).
+      - name: Desktop tests
+        run: ./gradlew.bat :desktop:test --no-daemon
+
+      # The Android module's JVM tests: OCR cleanup, answer matching, sync client.
+      - name: Android unit tests
+        run: ./gradlew.bat :app:testDebugUnitTest --no-daemon
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            desktop/build/reports/tests/
+            app/build/reports/tests/
+          retention-days: 14
